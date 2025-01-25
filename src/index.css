@@ -67,3 +67,12 @@
     @apply bg-background text-foreground;
   }
 }
+
+.example-carousel {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 320px;
+}
