@@ -97,9 +97,9 @@ export default function Home() {
                 ctx.lineCap = 'round';
                 ctx.lineWidth = 3;
                 
-                // Save initial blank canvas state
-                const initialState = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                setUndoStack([initialState]);
+                // Initialize with empty stacks instead of saving initial state
+                setUndoStack([]);
+                setRedoStack([]);
             }
         }
         const script = document.createElement('script');
@@ -183,10 +183,12 @@ export default function Home() {
     const resetCanvas = () => {
         const canvas = canvasRef.current;
         if (canvas) {
-            saveCanvasState(); // Save state before clearing
             const ctx = canvas.getContext('2d');
             if (ctx) {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
+                // Clear both stacks
+                setUndoStack([]);
+                setRedoStack([]);
             }
         }
     };
@@ -195,8 +197,10 @@ export default function Home() {
         setIsDrawing(true);
         const ctx = canvasRef.current?.getContext('2d');
         if (ctx) {
-            // Save state when starting to draw
-            saveCanvasState();
+            // Save state before starting new drawing action
+            if (!isDrawing) {
+                saveCanvasState();
+            }
             ctx.beginPath();
             ctx.moveTo(e.offsetX, e.offsetY);
         }
@@ -223,9 +227,7 @@ export default function Home() {
         }
     };
     const stopDrawing = () => {
-        if (isDrawing) {
-            saveCanvasState();
-        }
+        // Remove saveCanvasState from here since we're saving at the start
         setIsDrawing(false);
     };
 
@@ -346,6 +348,28 @@ export default function Home() {
                 >
                     Reset
                 </Button>
+
+                {/* Undo/Redo Buttons */}
+                <div className="flex gap-2">
+                    <Button
+                        onClick={handleUndo}
+                        disabled={undoStack.length === 0}
+                        title="Undo (Ctrl+Z)"
+                        className="bg-gray-700 hover:bg-gray-600 text-white font-medium px-3 py-1 text-sm rounded disabled:opacity-50"
+                        variant="default"
+                    >
+                        ↩ Undo
+                    </Button>
+                    <Button
+                        onClick={handleRedo}
+                        disabled={redoStack.length === 0}
+                        title="Redo (Ctrl+Y)"
+                        className="bg-gray-700 hover:bg-gray-600 text-white font-medium px-3 py-1 text-sm rounded disabled:opacity-50"
+                        variant="default"
+                    >
+                        ↪ Redo
+                    </Button>
+                </div>
 
                 {/* Tool Selector */}
                 <div className="flex items-center gap-2">
