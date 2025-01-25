@@ -1,5 +1,9 @@
 import { Carousel } from '@mantine/carousel';
 import '@mantine/carousel/styles.css';
+import arithmeticImg from '@/assets/Examples/arithmetic.png';
+import algebraicImg from '@/assets/Examples/algebraic.png';
+import geometricImg from '@/assets/Examples/geometric.png';
+import calculusImg from '@/assets/Examples/calculus.png';
 
 interface Example {
     id: number;
@@ -13,25 +17,25 @@ const EXAMPLE_PROBLEMS: Example[] = [
         id: 1,
         title: "Basic Arithmetic",
         description: "Solve simple arithmetic problems like 2 + 3 = ?",
-        imageUrl: "/src/assets/Examples/arithmetic.png"
+        imageUrl: arithmeticImg
     },
     {
         id: 2,
         title: "Algebraic Equations",
         description: "Solve equations like 2x + 3 = 7",
-        imageUrl: "/src/assets/Examples/algebraic.png"
+        imageUrl: algebraicImg
     },
     {
         id: 3,
         title: "Geometric Problems",
         description: "Calculate area, perimeter of shapes",
-        imageUrl: "/src/assets/Examples/geometric.png"
+        imageUrl: geometricImg
     },
     {
         id: 4,
         title: "Calculus Problems",
         description: "Solve derivatives and integrals",
-        imageUrl: "/src/assets/Examples/calculus.png"
+        imageUrl: calculusImg
     }
 ];
 
